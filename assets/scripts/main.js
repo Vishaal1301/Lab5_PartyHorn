@@ -1,5 +1,4 @@
 // main.js
-
 document.getElementById("honk-btn").type = "button";
 document.getElementById("honk-btn").addEventListener("click", buttonPress);
 
@@ -81,5 +80,4 @@ function buttonPress(){
     let volNumTxt = document.getElementById("volume-number");
     changeVol(Number(volNumTxt.value)/100);
     document.getElementById("horn-sound").play();
-    //alert(document.getElementById("horn-sound").volume)
 } 
