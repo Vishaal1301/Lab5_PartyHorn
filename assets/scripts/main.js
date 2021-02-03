@@ -1,69 +1,89 @@
 // main.js
 
-function changeVolume(vol){ //maybe don't need tone
-    var audio = document.getElementById("horn-sound");
-    audio.volume = vol;
+document.getElementById("honk-btn").type = "button";
+document.getElementById("honk-btn").addEventListener("click", buttonPress());
 
-    if(vol == 0){
-        //fill
-    }
+document.getElementById("volume-slider").addEventListener("input", changeVolSlider);
+document.getElementById("volume-number").addEventListener("input", changeVolNumber);
+document.getElementsByName("radio-sound").addEventListener("change", changeHorn());
+
+
+function changeVol(vol){
+    let audio = document.getElementById("horn-sound");
+    audio.volume = vol;
 }
 
 function changeVolIcon(vol){
-    if( vol >= 67){
+    let volImg = document.getElementById("volume-image"); 
 
+    if( vol >= 67){
+        volImg.setAttribute("src", "./assets/media/icons/volume-level-3.svg");
     }
     else if( vol >= 34){
-
+        volImg.setAttribute("src", "./assets/media/icons/volume-level-2.svg");
     }
     else if(vol >= 1){
-        
+        volImg.setAttribute("src", "./assets/media/icons/volume-level-1.svg");
     }
     else{
-
+        volImg.setAttribute("src", "./assets/media/icons/volume-level-0.svg");
     }
 }
 
 function changeVolNumber(){
-    var volNumTxt = document.getElementById("volume-number");
-    var volSlider = document.getElementById("volume-slider");
-    
+    let volNumTxt = document.getElementById("volume-number");
+    let volSlider = document.getElementById("volume-slider");
+   
+    if(volSlider.value != 0){
+        document.getElementById("honk-btn").disabled = false;
+    }
+
     volSlider.value = volNumTxt.value;
-    changeVolume();
-    changeVolumeIcon();
+    changeVolIcon(volNumTxt.value);
+
+    if(volSlider.value == 0){
+        document.getElementById("honk-btn").disabled = true;
+    }
 }
 
 function changeVolSlider(){
-    var volNumTxt = document.getElementById("volume-number");
-    var volSlider = document.getElementById("volume-slider");
+    let volNumTxt = document.getElementById("volume-number");
+    let volSlider = document.getElementById("volume-slider");
     
+    if(volNumTxt.value != 0){
+        document.getElementById("honk-btn").disabled = false;
+    }
+
     volNumTxt.value = volSlider.value;
-    changeVolume();
-    changeVolumeIcon();
+    changeVolIcon(volSlider.value);
+
+    if(volNumTxt.value == 0){
+        document.getElementById("honk-btn").disabled = true;
+    }
 }
 
 function changeHorn(){
-    var selElem = document.querySelector("input[name=radio-sound]:checked").id;
-    var imgToMod = document.getElementById("sound-image"); 
+    let imgToMod = document.getElementById("sound-image");
+    let hornToMod = document.getElementById("horn-sound"); 
 
-    if(selElem== "radio-air-horn"){
-        imgToMod.src = "./assets/media/images/air-horn.svg";
-    }
-    else if(selElem == "radio-car-horn"){
-        imgToMod.src = "./assets/media/images/car-horn.svg";
-    }
-    else{
-        imgToMod.src = "./assets/media/images/party-horn.svg";
-    }
+    document.getElementById("radio-air-horn").addEventListener("change", function() {
+        imgToMod.setAttribute("src", "./assets/media/images/air-horn.svg");
+        hornToMod.setAttribute("src", "./assets/media/audio/air-horn.mp3");
+    });
+    
+    document.getElementById("radio-car-horn").addEventListener("change", function() {
+        imgToMod.setAttribute("src", "./assets/media/images/car.svg");
+        hornToMod.setAttribute("src", "./assets/media/audio/car-horn.mp3");
+    });
 
-    audio.src = "./assets/media/audio/air-horn.mp3";
+    document.getElementById("radio-party-horn").addEventListener("change", function() {
+        imgToMod.setAttribute("src", "./assets/media/images/party-horn.svg");
+        hornToMod.setAttribute("src", "./assets/media/audio/party-horn.mp3");
+    });
 }
 
-document.getElementById("volume-slider").addEventListener("input", changeVolSlider);
-document.getElementById("volume-number").addEventListener("input", changeVolNumber);
-
-document.getElementById(document.querySelector("input[name=radio-sound]:checked")).addEventListener("input", changeHorn());
-
-
-
-
+function buttonPress(){
+    let volNumTxt = document.getElementById("volume-number");
+    changeVol(Number(volNumTxt.value)/100);
+    document.getElementById("horn-sound").play();
+}
