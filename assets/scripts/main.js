@@ -1,12 +1,11 @@
 // main.js
 
 document.getElementById("honk-btn").type = "button";
-document.getElementById("honk-btn").addEventListener("click", buttonPress());
+document.getElementById("honk-btn").addEventListener("click", buttonPress);
 
 document.getElementById("volume-slider").addEventListener("input", changeVolSlider);
 document.getElementById("volume-number").addEventListener("input", changeVolNumber);
 document.getElementsByName("radio-sound").addEventListener("change", changeHorn());
-
 
 function changeVol(vol){
     let audio = document.getElementById("horn-sound");
@@ -34,9 +33,7 @@ function changeVolNumber(){
     let volNumTxt = document.getElementById("volume-number");
     let volSlider = document.getElementById("volume-slider");
    
-    if(volSlider.value != 0){
-        document.getElementById("honk-btn").disabled = false;
-    }
+    document.getElementById("honk-btn").disabled = false;
 
     volSlider.value = volNumTxt.value;
     changeVolIcon(volNumTxt.value);
@@ -50,10 +47,8 @@ function changeVolSlider(){
     let volNumTxt = document.getElementById("volume-number");
     let volSlider = document.getElementById("volume-slider");
     
-    if(volNumTxt.value != 0){
-        document.getElementById("honk-btn").disabled = false;
-    }
-
+    document.getElementById("honk-btn").disabled = false;
+    
     volNumTxt.value = volSlider.value;
     changeVolIcon(volSlider.value);
 
@@ -86,4 +81,5 @@ function buttonPress(){
     let volNumTxt = document.getElementById("volume-number");
     changeVol(Number(volNumTxt.value)/100);
     document.getElementById("horn-sound").play();
-}
+    //alert(document.getElementById("horn-sound").volume)
+} 
